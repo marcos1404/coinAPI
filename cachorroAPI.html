@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="" data-js = "dog-img" alt="dog image">
+    <script>
+        
+        const url = 'https://dog.ceo/api/breeds/image/random'
+        const dogImg = document.querySelector('[data-js="dog-img"]')
+
+        const validateHTTPStatus = dogData => {
+            //entra no if se o .ok retornar outro numero fora do range entre 200 e 299
+            if (!dogData.ok) {
+                throw new Error(`HTTP error , status ${dogData.status}`)
+            }
+            return dogData.json()
+        }
+        //o value recebe o valor json que o funcao anteriro retorna
+        //no lugar do value pode usar descontruting e passar { value } 
+        //aplicando o nome value no lugar do value.message
+
+        const setDogImg = (value)  => {
+            dogImg.setAttribute('src', value.message)//value.message retorna apenas o conteudo do json
+        }
+
+        const handleRequestError = error => {
+            console.log(error.message)
+        }
+
+
+        fetch(url)
+            .then(validateHTTPStatus)
+            .then(setDogImg)
+            .catch(handleRequestError)
+    </script>
+</body>
+</html>
